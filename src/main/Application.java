@@ -55,6 +55,8 @@ public class Application extends javax.swing.JFrame {
         spectralRadio.setSelected(false);
         hierarchicalRadio.setSelected(false);
         splitSmartSwapClustererRadio.setSelected(false);
+        trajectoryClusterRadio.setSelected(false);
+        
 
         setMapResultUpdate();
     }
@@ -183,11 +185,11 @@ public class Application extends javax.swing.JFrame {
         jLabel28 = new javax.swing.JLabel();
         splitSmartSwapClustererRadio = new javax.swing.JRadioButton();
         trajectoryClusterPanel = new javax.swing.JPanel();
+        trajectoryClusterSettingPanel = new javax.swing.JPanel();
+        jSeparator7 = new javax.swing.JSeparator();
         trajectoryClusterSelectPanel = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
         trajectoryClusterRadio = new javax.swing.JRadioButton();
-        trajectoryClusterSettingPanel = new javax.swing.JPanel();
-        jSeparator7 = new javax.swing.JSeparator();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         normalDataMenuItem = new javax.swing.JMenuItem();
@@ -1193,7 +1195,7 @@ public class Application extends javax.swing.JFrame {
             .addGroup(splitSmartSwapClustererSelectPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel28)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(splitSmartSwapClustererRadio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -1226,48 +1228,6 @@ public class Application extends javax.swing.JFrame {
         trajectoryClusterPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         trajectoryClusterPanel.setMinimumSize(new java.awt.Dimension(0, 0));
 
-        trajectoryClusterSelectPanel.setPreferredSize(new java.awt.Dimension(0, 41));
-        trajectoryClusterSelectPanel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                trajectoryClusterSelectPanelMouseReleased(evt);
-            }
-        });
-
-        jLabel27.setText("TrajectoryClustering");
-        jLabel27.setMaximumSize(new java.awt.Dimension(175, 17));
-        jLabel27.setMinimumSize(new java.awt.Dimension(175, 17));
-        jLabel27.setPreferredSize(new java.awt.Dimension(175, 17));
-
-        trajectoryClusterRadio.setSelected(true);
-        trajectoryClusterRadio.setActionCommand("");
-        trajectoryClusterRadio.setLabel("");
-        trajectoryClusterRadio.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                trajectoryClusterRadioStateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout trajectoryClusterSelectPanelLayout = new javax.swing.GroupLayout(trajectoryClusterSelectPanel);
-        trajectoryClusterSelectPanel.setLayout(trajectoryClusterSelectPanelLayout);
-        trajectoryClusterSelectPanelLayout.setHorizontalGroup(
-            trajectoryClusterSelectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(trajectoryClusterSelectPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(trajectoryClusterRadio, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        trajectoryClusterSelectPanelLayout.setVerticalGroup(
-            trajectoryClusterSelectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(trajectoryClusterSelectPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(trajectoryClusterSelectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(trajectoryClusterRadio, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
         javax.swing.GroupLayout trajectoryClusterSettingPanelLayout = new javax.swing.GroupLayout(trajectoryClusterSettingPanel);
         trajectoryClusterSettingPanel.setLayout(trajectoryClusterSettingPanelLayout);
         trajectoryClusterSettingPanelLayout.setHorizontalGroup(
@@ -1281,11 +1241,51 @@ public class Application extends javax.swing.JFrame {
                 .addGap(0, 88, Short.MAX_VALUE))
         );
 
+        trajectoryClusterSelectPanel.setPreferredSize(new java.awt.Dimension(0, 41));
+        trajectoryClusterSelectPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                trajectoryClusterSelectPanelMouseReleased(evt);
+            }
+        });
+
+        jLabel27.setText("TrajectoryClustering");
+        jLabel27.setMaximumSize(new java.awt.Dimension(175, 17));
+        jLabel27.setMinimumSize(new java.awt.Dimension(175, 17));
+        jLabel27.setPreferredSize(new java.awt.Dimension(175, 17));
+
+        trajectoryClusterRadio.setSelected(true);
+        trajectoryClusterRadio.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                trajectoryClusterRadioStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout trajectoryClusterSelectPanelLayout = new javax.swing.GroupLayout(trajectoryClusterSelectPanel);
+        trajectoryClusterSelectPanel.setLayout(trajectoryClusterSelectPanelLayout);
+        trajectoryClusterSelectPanelLayout.setHorizontalGroup(
+            trajectoryClusterSelectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(trajectoryClusterSelectPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addComponent(trajectoryClusterRadio, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        trajectoryClusterSelectPanelLayout.setVerticalGroup(
+            trajectoryClusterSelectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(trajectoryClusterSelectPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(trajectoryClusterSelectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(trajectoryClusterRadio, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout trajectoryClusterPanelLayout = new javax.swing.GroupLayout(trajectoryClusterPanel);
         trajectoryClusterPanel.setLayout(trajectoryClusterPanelLayout);
         trajectoryClusterPanelLayout.setHorizontalGroup(
             trajectoryClusterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(trajectoryClusterSelectPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
+            .addComponent(trajectoryClusterSelectPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(trajectoryClusterSettingPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         trajectoryClusterPanelLayout.setVerticalGroup(
@@ -1293,7 +1293,7 @@ public class Application extends javax.swing.JFrame {
             .addGroup(trajectoryClusterPanelLayout.createSequentialGroup()
                 .addComponent(trajectoryClusterSelectPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(trajectoryClusterSettingPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(trajectoryClusterSettingPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout settingPanelLayout = new javax.swing.GroupLayout(settingPanel);

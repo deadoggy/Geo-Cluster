@@ -1739,7 +1739,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jLabel28" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="50" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Component id="splitSmartSwapClustererRadio" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -1794,7 +1794,7 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="trajectoryClusterSelectPanel" pref="277" max="32767" attributes="0"/>
+                      <Component id="trajectoryClusterSelectPanel" min="-2" pref="277" max="-2" attributes="0"/>
                       <Component id="trajectoryClusterSettingPanel" alignment="0" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
@@ -1803,12 +1803,34 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="trajectoryClusterSelectPanel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="trajectoryClusterSettingPanel" max="32767" attributes="0"/>
+                          <Component id="trajectoryClusterSettingPanel" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
+                <Container class="javax.swing.JPanel" name="trajectoryClusterSettingPanel">
+
+                  <Layout>
+                    <DimensionLayout dim="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jSeparator7" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                    </DimensionLayout>
+                    <DimensionLayout dim="1">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jSeparator7" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="88" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                    </DimensionLayout>
+                  </Layout>
+                  <SubComponents>
+                    <Component class="javax.swing.JSeparator" name="jSeparator7">
+                    </Component>
+                  </SubComponents>
+                </Container>
                 <Container class="javax.swing.JPanel" name="trajectoryClusterSelectPanel">
                   <Properties>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -1825,7 +1847,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jLabel27" min="-2" pref="161" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="55" max="32767" attributes="0"/>
                               <Component id="trajectoryClusterRadio" min="-2" pref="37" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -1862,34 +1884,10 @@
                     <Component class="javax.swing.JRadioButton" name="trajectoryClusterRadio">
                       <Properties>
                         <Property name="selected" type="boolean" value="true"/>
-                        <Property name="actionCommand" type="java.lang.String" value=""/>
-                        <Property name="label" type="java.lang.String" value=""/>
                       </Properties>
                       <Events>
                         <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="trajectoryClusterRadioStateChanged"/>
                       </Events>
-                    </Component>
-                  </SubComponents>
-                </Container>
-                <Container class="javax.swing.JPanel" name="trajectoryClusterSettingPanel">
-
-                  <Layout>
-                    <DimensionLayout dim="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jSeparator7" alignment="0" max="32767" attributes="0"/>
-                      </Group>
-                    </DimensionLayout>
-                    <DimensionLayout dim="1">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jSeparator7" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="88" max="32767" attributes="0"/>
-                          </Group>
-                      </Group>
-                    </DimensionLayout>
-                  </Layout>
-                  <SubComponents>
-                    <Component class="javax.swing.JSeparator" name="jSeparator7">
                     </Component>
                   </SubComponents>
                 </Container>
