@@ -45,6 +45,8 @@ public class Application extends javax.swing.JFrame {
         tabbedViewerPanel.addTab("2D", clusterPanel);
         mapKit = new MapKit();
         tabbedViewerPanel.addTab("Geo", mapKit);
+        trajClusterPanel = new TrajectoryClusterPanel();
+        tabbedViewerPanel.addTab("Traj", trajClusterPanel);
 
         //fold clustering panels
         dbScanRadio.setSelected(false);
@@ -187,9 +189,11 @@ public class Application extends javax.swing.JFrame {
         trajectoryClusterPanel = new javax.swing.JPanel();
         trajectoryClusterSettingPanel = new javax.swing.JPanel();
         jSeparator7 = new javax.swing.JSeparator();
+        trajectoryClusterButton = new javax.swing.JButton();
         trajectoryClusterSelectPanel = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
         trajectoryClusterRadio = new javax.swing.JRadioButton();
+        jLabel29 = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         normalDataMenuItem = new javax.swing.JMenuItem();
@@ -1228,18 +1232,33 @@ public class Application extends javax.swing.JFrame {
         trajectoryClusterPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         trajectoryClusterPanel.setMinimumSize(new java.awt.Dimension(0, 0));
 
+        trajectoryClusterButton.setText("run");
+        trajectoryClusterButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                trajectoryClusterButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout trajectoryClusterSettingPanelLayout = new javax.swing.GroupLayout(trajectoryClusterSettingPanel);
         trajectoryClusterSettingPanel.setLayout(trajectoryClusterSettingPanelLayout);
         trajectoryClusterSettingPanelLayout.setHorizontalGroup(
             trajectoryClusterSettingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jSeparator7)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, trajectoryClusterSettingPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(trajectoryClusterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         trajectoryClusterSettingPanelLayout.setVerticalGroup(
             trajectoryClusterSettingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(trajectoryClusterSettingPanelLayout.createSequentialGroup()
                 .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 88, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addComponent(trajectoryClusterButton)
+                .addContainerGap())
         );
+
+        trajectoryClusterButton.getAccessibleContext().setAccessibleName("run");
 
         trajectoryClusterSelectPanel.setPreferredSize(new java.awt.Dimension(0, 41));
         trajectoryClusterSelectPanel.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1293,8 +1312,10 @@ public class Application extends javax.swing.JFrame {
             .addGroup(trajectoryClusterPanelLayout.createSequentialGroup()
                 .addComponent(trajectoryClusterSelectPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(trajectoryClusterSettingPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(trajectoryClusterSettingPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jLabel29.setText("  Traj cluster data:");
 
         javax.swing.GroupLayout settingPanelLayout = new javax.swing.GroupLayout(settingPanel);
         settingPanel.setLayout(settingPanelLayout);
@@ -1318,7 +1339,8 @@ public class Application extends javax.swing.JFrame {
                             .addComponent(dbScanPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(spectralPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(splitSmartSwapClustererPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(21, 21, 21))))
+                        .addGap(21, 21, 21))
+                    .addComponent(jLabel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         settingPanelLayout.setVerticalGroup(
             settingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1342,8 +1364,10 @@ public class Application extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(splitSmartSwapClustererPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(trajectoryClusterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         settingScrollPane.setViewportView(settingPanel);
@@ -1651,6 +1675,10 @@ public class Application extends javax.swing.JFrame {
         // TODO add your handling code here:
          trajectoryClusterRadio.setSelected(!trajectoryClusterRadio.isSelected());
     }//GEN-LAST:event_trajectoryClusterSelectPanelMouseReleased
+
+    private void trajectoryClusterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trajectoryClusterButtonActionPerformed
+        
+    }//GEN-LAST:event_trajectoryClusterButtonActionPerformed
 
     private void setIsGPSData(boolean isGPSData) {
         if (isGPSData) {
@@ -2204,6 +2232,7 @@ public class Application extends javax.swing.JFrame {
     private ClusterPanel clusterPanel;
     private MapKit mapKit;
     private Cluster[] resultClusters;
+    private TrajectoryClusterPanel trajClusterPanel;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
@@ -2261,6 +2290,7 @@ public class Application extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
@@ -2330,6 +2360,7 @@ public class Application extends javax.swing.JFrame {
     private javax.swing.JLabel stateLabel;
     private javax.swing.JTabbedPane tabbedViewerPanel;
     private javax.swing.JLabel timeLabel;
+    private javax.swing.JButton trajectoryClusterButton;
     private javax.swing.JPanel trajectoryClusterPanel;
     private javax.swing.JRadioButton trajectoryClusterRadio;
     private javax.swing.JPanel trajectoryClusterSelectPanel;
