@@ -118,7 +118,6 @@ public class ClusterPanel extends JPanel {
         start = points[len - 1];
         end = points[0];
         drawPolyLine(start, end, color);
-
     }
     
     private void drawPolyLine(Point p1, Point p2, Color color) {

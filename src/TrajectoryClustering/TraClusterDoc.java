@@ -33,6 +33,11 @@ public class TraClusterDoc {
 	public int m_maxNPoints;
 	public ArrayList<Trajectory> m_trajectoryList;
 	public ArrayList<Cluster> m_clusterList;
+        public double maxX;
+        public double maxY;
+        public double minX;
+        public double minY;
+        
 	
 	public TraClusterDoc() {
 			
@@ -41,7 +46,15 @@ public class TraClusterDoc {
 		m_clusterRatio = 0.0;	
 		m_trajectoryList = new ArrayList<Trajectory>();
 		m_clusterList = new ArrayList<Cluster>();
+                maxX = maxY = 0;
+                minX = minY = 10000;
 	}
+        
+        public void refresh(){
+            m_nClusters = 0;
+            m_clusterList = new ArrayList<Cluster>();
+            
+        }
 	
 	public class Parameter {
 		double epsParam;
@@ -102,6 +115,10 @@ public class TraClusterDoc {
 						value = sc.nextDouble();
 						point.setVectors(k, value);						
 					}
+                                        maxX = maxX > point.vectors[0] ? maxX : point.vectors[0];
+                                        minX = minX < point.vectors[0] ? minX : point.vectors[0];
+                                        maxY = maxY > point.vectors[1] ? maxY : point.vectors[1];
+                                        minY = minY < point.vectors[1] ? minY : point.vectors[1]; 
 					pTrajectoryItem.addPointToArray(point);				
 				}
 				
@@ -218,5 +235,11 @@ public class TraClusterDoc {
 		}
 		return p;
 	}
+        
+        
+        public void clearResult(){
+            m_clusterList = null;
+        }
+        
 
 }

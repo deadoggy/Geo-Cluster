@@ -74,6 +74,7 @@ public class Application extends javax.swing.JFrame {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        jLabel30 = new javax.swing.JLabel();
         stateLabel = new javax.swing.JLabel();
         tabbedViewerPanel = new javax.swing.JTabbedPane();
         jPanel5 = new javax.swing.JPanel();
@@ -191,6 +192,10 @@ public class Application extends javax.swing.JFrame {
         trajectoryClusterSettingPanel = new javax.swing.JPanel();
         jSeparator7 = new javax.swing.JSeparator();
         trajectoryClusterButton = new javax.swing.JButton();
+        jLabel31 = new javax.swing.JLabel();
+        trajClusterMinLnsTextField = new javax.swing.JTextField();
+        jLabel32 = new javax.swing.JLabel();
+        trajClusterEpsTextField = new javax.swing.JTextField();
         trajectoryClusterSelectPanel = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
         trajectoryClusterRadio = new javax.swing.JRadioButton();
@@ -205,6 +210,8 @@ public class Application extends javax.swing.JFrame {
         helpMenu = new javax.swing.JMenu();
         contentsMenuItem = new javax.swing.JMenuItem();
         aboutMenuItem = new javax.swing.JMenuItem();
+
+        jLabel30.setText("eps");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Geo-Cluster");
@@ -1235,29 +1242,68 @@ public class Application extends javax.swing.JFrame {
         trajectoryClusterPanel.setMinimumSize(new java.awt.Dimension(0, 0));
 
         trajectoryClusterButton.setText("run");
+        trajectoryClusterButton.setMaximumSize(new java.awt.Dimension(55, 29));
+        trajectoryClusterButton.setPreferredSize(new java.awt.Dimension(47, 29));
         trajectoryClusterButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 trajectoryClusterButtonActionPerformed(evt);
             }
         });
 
+        jLabel31.setText("minLns");
+        jLabel31.setMaximumSize(new java.awt.Dimension(55, 17));
+        jLabel31.setMinimumSize(new java.awt.Dimension(55, 55));
+        jLabel31.setPreferredSize(new java.awt.Dimension(55, 25));
+
+        trajClusterMinLnsTextField.setText("16");
+        trajClusterMinLnsTextField.setPreferredSize(new java.awt.Dimension(49, 25));
+
+        jLabel32.setText("eps");
+        jLabel32.setMaximumSize(new java.awt.Dimension(55, 17));
+        jLabel32.setMinimumSize(new java.awt.Dimension(55, 17));
+        jLabel32.setPreferredSize(new java.awt.Dimension(55, 25));
+
+        trajClusterEpsTextField.setText("26");
+        trajClusterEpsTextField.setPreferredSize(new java.awt.Dimension(49, 27));
+
         javax.swing.GroupLayout trajectoryClusterSettingPanelLayout = new javax.swing.GroupLayout(trajectoryClusterSettingPanel);
         trajectoryClusterSettingPanel.setLayout(trajectoryClusterSettingPanelLayout);
         trajectoryClusterSettingPanelLayout.setHorizontalGroup(
             trajectoryClusterSettingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jSeparator7)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, trajectoryClusterSettingPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(trajectoryClusterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(trajectoryClusterSettingPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(trajectoryClusterSettingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(trajectoryClusterSettingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(trajClusterEpsTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
+                    .addComponent(trajClusterMinLnsTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(trajectoryClusterButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         trajectoryClusterSettingPanelLayout.setVerticalGroup(
             trajectoryClusterSettingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(trajectoryClusterSettingPanelLayout.createSequentialGroup()
-                .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                .addComponent(trajectoryClusterButton)
-                .addContainerGap())
+                .addGroup(trajectoryClusterSettingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(trajectoryClusterSettingPanelLayout.createSequentialGroup()
+                        .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(trajectoryClusterSettingPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(trajClusterMinLnsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(trajectoryClusterSettingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(trajectoryClusterSettingPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(trajectoryClusterSettingPanelLayout.createSequentialGroup()
+                        .addComponent(trajClusterEpsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(trajectoryClusterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(9, 9, 9))))
         );
 
         trajectoryClusterSelectPanel.setPreferredSize(new java.awt.Dimension(0, 41));
@@ -1685,6 +1731,13 @@ public class Application extends javax.swing.JFrame {
     }//GEN-LAST:event_trajectoryClusterSelectPanelMouseReleased
 
     private void trajectoryClusterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trajectoryClusterButtonActionPerformed
+        try{
+            Integer minLns = Integer.parseInt(trajClusterMinLnsTextField.getText());
+            Double eps = Double.parseDouble(trajClusterEpsTextField.getText());
+            trajClusterPanel.startTrajectoryClusterPanel(traData, minLns, eps);
+        }catch(NumberFormatException e){
+            showWarning("input invalid");
+        }
         
     }//GEN-LAST:event_trajectoryClusterButtonActionPerformed
 
@@ -1862,6 +1915,9 @@ public class Application extends javax.swing.JFrame {
     }
 
     private void cleanResult() {
+        if(null!=traData){
+           traData.clearResult(); 
+        }
         resultClusters = null;
         mapKit.markerClusterer.startCluster = false;
         mapKit.splitSmartSwapCluster.startCluster = false;
@@ -2318,6 +2374,9 @@ public class Application extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
@@ -2386,6 +2445,8 @@ public class Application extends javax.swing.JFrame {
     private javax.swing.JLabel stateLabel;
     private javax.swing.JTabbedPane tabbedViewerPanel;
     private javax.swing.JLabel timeLabel;
+    private javax.swing.JTextField trajClusterEpsTextField;
+    private javax.swing.JTextField trajClusterMinLnsTextField;
     private javax.swing.JMenuItem trajDataMenuItem;
     private javax.swing.JButton trajectoryClusterButton;
     private javax.swing.JPanel trajectoryClusterPanel;
