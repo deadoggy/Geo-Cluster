@@ -198,6 +198,7 @@ public class Application extends javax.swing.JFrame {
         fileMenu = new javax.swing.JMenu();
         normalDataMenuItem = new javax.swing.JMenuItem();
         gpsDataMenuItem = new javax.swing.JMenuItem();
+        trajDataMenuItem = new javax.swing.JMenuItem();
         exportMenuItem = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
@@ -1258,8 +1259,6 @@ public class Application extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        trajectoryClusterButton.getAccessibleContext().setAccessibleName("run");
-
         trajectoryClusterSelectPanel.setPreferredSize(new java.awt.Dimension(0, 41));
         trajectoryClusterSelectPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -1393,6 +1392,14 @@ public class Application extends javax.swing.JFrame {
             }
         });
         fileMenu.add(gpsDataMenuItem);
+
+        trajDataMenuItem.setText("Open traj data");
+        trajDataMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                trajDataMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(trajDataMenuItem);
 
         exportMenuItem.setMnemonic('a');
         exportMenuItem.setText("Export result");
@@ -1680,6 +1687,10 @@ public class Application extends javax.swing.JFrame {
         
     }//GEN-LAST:event_trajectoryClusterButtonActionPerformed
 
+    private void trajDataMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trajDataMenuItemActionPerformed
+        loadFile(true);
+    }//GEN-LAST:event_trajDataMenuItemActionPerformed
+
     private void setIsGPSData(boolean isGPSData) {
         if (isGPSData) {
             dataTypeLabel.setText("Geo");
@@ -1868,9 +1879,7 @@ public class Application extends javax.swing.JFrame {
         filter = new FileFilter() {
             @Override
             public boolean accept(File f) {
-                return (f.isDirectory()
-                        || f.getPath().toLowerCase().endsWith(".txt")
-                        || f.getPath().toLowerCase().endsWith(".csv"));
+                return true;
             }
 
             @Override
@@ -2360,6 +2369,7 @@ public class Application extends javax.swing.JFrame {
     private javax.swing.JLabel stateLabel;
     private javax.swing.JTabbedPane tabbedViewerPanel;
     private javax.swing.JLabel timeLabel;
+    private javax.swing.JMenuItem trajDataMenuItem;
     private javax.swing.JButton trajectoryClusterButton;
     private javax.swing.JPanel trajectoryClusterPanel;
     private javax.swing.JRadioButton trajectoryClusterRadio;

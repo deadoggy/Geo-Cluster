@@ -22,6 +22,7 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Locale;
+import main.Point;
 
 public class TraClusterDoc {
 	
@@ -81,16 +82,16 @@ public class TraClusterDoc {
 				nPoints = sc.nextInt(); // number of points in the trajectory
 				
 				if (nPoints > m_maxNPoints) {
-					m_maxNPoints = nPoints;
+                                    m_maxNPoints = nPoints;
 				}
 				nTotalPoints += nPoints;
 				Trajectory pTrajectoryItem = new Trajectory(trajectoryId, nDimensions);		
 				for (int j = 0; j < nPoints; j++) {
-					CMDPoint point = new CMDPoint(nDimensions);   // initialize the CMDPoint class for each point
+					Point point = new Point(nDimensions);   // initialize the CMDPoint class for each point
 					
 					for (int k = 0; k < nDimensions; k++) {						
 						value = sc.nextDouble();
-						point.setM_coordinate(k, value);						
+						point.setVectors(k, value);						
 					}
 					pTrajectoryItem.addPointToArray(point);				
 				}
@@ -152,8 +153,8 @@ public class TraClusterDoc {
 			System.out.println(m_clusterList.get(i).getM_clusterId());
 			for (int j = 0; j<m_clusterList.get(i).getM_PointArray().size(); j++) {
 				
-				double x = m_clusterList.get(i).getM_PointArray().get(j).getM_coordinate(0);
-				double y = m_clusterList.get(i).getM_PointArray().get(j).getM_coordinate(1);
+				double x = m_clusterList.get(i).getM_PointArray().get(j).getVectors(0);
+				double y = m_clusterList.get(i).getM_PointArray().get(j).getVectors(1);
 			System.out.print("   "+ x +" "+ y +"   ");
 			}
 			System.out.println();
@@ -173,8 +174,8 @@ public class TraClusterDoc {
 				bw.write("\nclusterID: "+ m_clusterList.get(i).getM_clusterId() + "  Points Number:  " + m_clusterList.get(i).getM_PointArray().size() + "\n");
 				for (int j = 0; j < m_clusterList.get(i).getM_PointArray().size(); j++) {
 					
-					double x = m_clusterList.get(i).getM_PointArray().get(j).getM_coordinate(0);
-					double y = m_clusterList.get(i).getM_PointArray().get(j).getM_coordinate(1);
+					double x = m_clusterList.get(i).getM_PointArray().get(j).getVectors(0);
+					double y = m_clusterList.get(i).getM_PointArray().get(j).getVectors(1);
 					bw.write(x+" "+y+"   ");
 				}
 			}						

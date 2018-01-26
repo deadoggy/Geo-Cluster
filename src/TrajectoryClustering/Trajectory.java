@@ -10,15 +10,16 @@ package TrajectoryClustering;
  * @author yinjiazhang
  */
 import java.util.ArrayList;
+import main.Point;
 
 public class Trajectory {	
 	
 	private int m_trajectoryId;	// the identifier of this trajectory
 	private int m_nDimensions; // the dimensionality of this trajectory
 	private int m_nPoints; // the number of points constituting a trajectory 
-	private ArrayList<CMDPoint> m_pointArray; // the array of the trajectory points
+	private ArrayList<Point> m_pointArray; // the array of the trajectory points
 	private int m_nPartitionPoints; // the number of partition points in a trajectory
-	private ArrayList<CMDPoint> m_partitionPointArray; // the array of the partition points
+	private ArrayList<Point> m_partitionPointArray; // the array of the partition points
 	
 	
 	public Trajectory() {	
@@ -26,8 +27,8 @@ public class Trajectory {
 		m_nDimensions = 2;
 		m_nPoints = 0;
 		m_nPartitionPoints = 0;
-		m_pointArray = new ArrayList<CMDPoint>();
-		m_partitionPointArray = new ArrayList<CMDPoint>();
+		m_pointArray = new ArrayList<Point>();
+		m_partitionPointArray = new ArrayList<Point>();
 		
 	}
 	
@@ -36,16 +37,16 @@ public class Trajectory {
 		m_nDimensions = nDimensions;
 		m_nPoints = 0;
 		m_nPartitionPoints = 0;
-		m_pointArray = new ArrayList<CMDPoint>();
-		m_partitionPointArray = new ArrayList<CMDPoint>();
+		m_pointArray = new ArrayList<Point>();
+		m_partitionPointArray = new ArrayList<Point>();
 	}
 	//two methods	
-	public void addPointToArray(CMDPoint point) {
+	public void addPointToArray(Point point) {
 		m_pointArray.add(point);
 		m_nPoints++;
 	}
 	
-	public void addPartitionPointToArray(CMDPoint point) {
+	public void addPartitionPointToArray(Point point) {
 		m_partitionPointArray.add(point);		
 		m_nPartitionPoints++;
 	}
@@ -74,11 +75,11 @@ public class Trajectory {
 		this.m_nPoints = m_nPoints;
 	}
 
-	public ArrayList<CMDPoint> getM_pointArray() {
+	public ArrayList<Point> getM_pointArray() {
 		return m_pointArray;
 	}
 
-	public void setM_pointArray(ArrayList<CMDPoint> m_pointArray) {
+	public void setM_pointArray(ArrayList<Point> m_pointArray) {
 		this.m_pointArray = m_pointArray;
 	}
 
@@ -90,11 +91,11 @@ public class Trajectory {
 		this.m_nPartitionPoints = m_nPartitionPoints;
 	}
 
-	public ArrayList<CMDPoint> getM_partitionPointArray() {
+	public ArrayList<Point> getM_partitionPointArray() {
 		return m_partitionPointArray;
 	}
 
-	public void setM_partitionPointArray(ArrayList<CMDPoint> m_partitionPointArray) {
+	public void setM_partitionPointArray(ArrayList<Point> m_partitionPointArray) {
 		this.m_partitionPointArray = m_partitionPointArray;
 	}
 

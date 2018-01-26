@@ -11,6 +11,7 @@ import java.io.Serializable;
 public class Point implements Serializable {
 
     public double[] vectors; // conation multi-dimension value
+    int dimensions; 
     public static String gPointString = "";
     public boolean isGPS;
     public int index = -1;
@@ -24,6 +25,20 @@ public class Point implements Serializable {
 
     public Point(boolean isGPS) {
         this.isGPS = isGPS;
+    }
+    
+    public Point() {
+        dimensions = 2;
+	vectors = new double[dimensions];
+	vectors[0] = vectors[1] = 0.0;
+    }
+	
+    public Point(int nDimensions) {
+	dimensions = nDimensions;
+	vectors = new double[dimensions];
+	for( int i=0; i < dimensions; i++ ) {
+		vectors[i] = 0.0;
+	}
     }
 
     private static double rad(double d) {
@@ -89,7 +104,6 @@ public class Point implements Serializable {
         }
 
         point.index = index;
-
         return point;
     }
 
@@ -106,6 +120,22 @@ public class Point implements Serializable {
         this.toString();
     }
     
+    public double getVectors(int nth) {		
+	return vectors[nth];
+    }
+	
+    public int getDimensions() {
+	return dimensions;
+    }
+	
+    /**
+    * set the coordinate according to the dimension
+    * @param nth dimension
+    * @param value value
+    */
+    public void setVectors(int nth, double value) {
+	this.vectors[nth] = value;
+    }
 
 
 }

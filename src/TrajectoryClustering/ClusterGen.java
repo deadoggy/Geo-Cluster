@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import TrajectoryClustering.TraClusterDoc.Parameter;
+import main.Point;
 
 public class ClusterGen {
 	
@@ -27,14 +28,14 @@ public class ClusterGen {
 	// the list of line segment clusters
 	private LineSegmentCluster[] m_lineSegmentClusters;
 	// programming trick: avoid frequent execution of the new and delete operations
-	private CMDPoint m_startPoint1, m_endPoint1, m_startPoint2, m_endPoint2;
-	private CMDPoint m_vector1 ; //  = new CMDPoint(m_document.m_nDimensions);
-	private CMDPoint m_vector2 ; // = new CMDPoint(m_document.m_nDimensions);;
-	private CMDPoint m_projectionPoint ; // = new CMDPoint( m_document.m_nDimensions);;
+	private Point m_startPoint1, m_endPoint1, m_startPoint2, m_endPoint2;
+	private Point m_vector1 ; //  = new Point(m_document.m_nDimensions);
+	private Point m_vector2 ; // = new Point(m_document.m_nDimensions);;
+	private Point m_projectionPoint ; // = new Point( m_document.m_nDimensions);;
 	double m_coefficient;
 	
 	private ArrayList<LineSegmentId> m_idArray = new ArrayList<ClusterGen.LineSegmentId>();
-	private ArrayList<CMDPoint> m_lineSegmentPointArray = new ArrayList<CMDPoint>();
+	private ArrayList<Point> m_lineSegmentPointArray = new ArrayList<Point>();
 	
 	// used for performing the DBSCAN algorithm
 	public static final int UNCLASSIFIED = -2;
@@ -67,11 +68,11 @@ public class ClusterGen {
 		
 		int lineSegmentClusterId;
 		int nLineSegments;
-		CMDPoint avgDirectionVector;
+		Point avgDirectionVector;
 		double cosTheta, sinTheta;
 		ArrayList<CandidateClusterPoint> candidatePointList = new ArrayList<ClusterGen.CandidateClusterPoint>();
 		int nClusterPoints;
-		ArrayList<CMDPoint> clusterPointArray = new ArrayList<CMDPoint>();
+		ArrayList<Point> clusterPointArray = new ArrayList<Point>();
 		int nTrajectories;
 		ArrayList<Integer> trajectoryIdList = new ArrayList<Integer>();
 		boolean enabled;
@@ -84,14 +85,14 @@ public class ClusterGen {
 	public ClusterGen(TraClusterDoc document) {
 		m_document = document;
 		
-		m_startPoint1 = new CMDPoint(m_document.m_nDimensions);
-		m_startPoint2 = new CMDPoint(m_document.m_nDimensions);
-		m_endPoint1 = new CMDPoint(m_document.m_nDimensions);
-		m_endPoint2 = new CMDPoint(m_document.m_nDimensions);
+		m_startPoint1 = new Point(m_document.m_nDimensions);
+		m_startPoint2 = new Point(m_document.m_nDimensions);
+		m_endPoint1 = new Point(m_document.m_nDimensions);
+		m_endPoint2 = new Point(m_document.m_nDimensions);
 		
-		m_vector1 = new CMDPoint(m_document.m_nDimensions);
-		m_vector2 = new CMDPoint(m_document.m_nDimensions);
-		m_projectionPoint = new CMDPoint( m_document.m_nDimensions);
+		m_vector1 = new Point(m_document.m_nDimensions);
+		m_vector2 = new Point(m_document.m_nDimensions);
+		m_projectionPoint = new Point( m_document.m_nDimensions);
 
 		
 		m_idArray.clear();
@@ -149,8 +150,8 @@ public class ClusterGen {
 	private boolean storeClusterComponentIntoIndex() {
 		
 		int nDimensions = m_document.m_nDimensions;
-		CMDPoint startPoint;
-		CMDPoint endPoint;
+		Point startPoint;
+		Point endPoint;
 		
 		m_nTotalLineSegments = 0;
 		for (int i = 0; i < m_document.m_trajectoryList.size(); i++) {
@@ -168,10 +169,10 @@ public class ClusterGen {
 				}
 				m_nTotalLineSegments++;
 				
-				CMDPoint lineSegmentPoint = new CMDPoint(nDimensions * 2);
+				Point lineSegmentPoint = new Point(nDimensions * 2);
 				for (int m = 0; m < nDimensions; m++) {
-					lineSegmentPoint.setM_coordinate(m, startPoint.getM_coordinate(m));
-					lineSegmentPoint.setM_coordinate(nDimensions+m, endPoint.getM_coordinate(m));
+					lineSegmentPoint.setVectors(m, startPoint.getVectors(m));
+					lineSegmentPoint.setVectors(nDimensions+m, endPoint.getVectors(m));
 				}
 				
 				LineSegmentId id = new LineSegmentId();
@@ -193,7 +194,7 @@ public class ClusterGen {
 		int fullPartitionMDLCost, partialPartitionMDLCost;
 		
 		// add the start point of a trajectory
-		CMDPoint startP = pTrajectory.getM_pointArray().get(0);
+		Point startP = pTrajectory.getM_pointArray().get(0);
 		pTrajectory.addPartitionPointToArray(startP);
 				
 		for (;;) {
@@ -234,8 +235,8 @@ public class ClusterGen {
 	
 	private int computeModelCost(Trajectory pTrajectory, int startPIndex, int endPIndex) {
 
-		CMDPoint lineSegmentStart = pTrajectory.getM_pointArray().get(startPIndex);
-		CMDPoint lineSegmentEnd = pTrajectory.getM_pointArray().get(endPIndex);
+		Point lineSegmentStart = pTrajectory.getM_pointArray().get(startPIndex);
+		Point lineSegmentEnd = pTrajectory.getM_pointArray().get(endPIndex);
 		
 		double distance = measureDistanceFromPointToPoint(lineSegmentStart, lineSegmentEnd);
 		
@@ -249,10 +250,10 @@ public class ClusterGen {
 
 	private int computeEncodingCost(Trajectory pTrajectory, int startPIndex, int endPIndex) {
 		
-		CMDPoint clusterComponentStart;
-		CMDPoint clusterComponentEnd;
-		CMDPoint lineSegmentStart;
-		CMDPoint lineSegmentEnd;
+		Point clusterComponentStart;
+		Point clusterComponentEnd;
+		Point lineSegmentStart;
+		Point lineSegmentEnd;
 		double perpendicularDistance;
 		double angleDistance;
 		int encodingCost = 0;
@@ -277,7 +278,7 @@ public class ClusterGen {
 		return encodingCost;
 		
 	}
-	private double measurePerpendicularDistance(CMDPoint s1, CMDPoint e1, CMDPoint s2,CMDPoint e2) {
+	private double measurePerpendicularDistance(Point s1, Point e1, Point s2,Point e2) {
 
 		//  we assume that the first line segment is longer than the second one
 		double distance1;	//  the distance from a start point to the cluster component
@@ -295,9 +296,9 @@ public class ClusterGen {
 
 	}
 	
-	private double measureDistanceFromPointToLineSegment(CMDPoint s, CMDPoint e, CMDPoint p) {
+	private double measureDistanceFromPointToLineSegment(Point s, Point e, Point p) {
 
-		int nDimensions = p.getM_nDimensions();
+		int nDimensions = p.getDimensions();
 
 		//  NOTE: the variables m_vector1 and m_vector2 are declared as member variables
 
@@ -306,8 +307,8 @@ public class ClusterGen {
 		//  2. the vector representing the cluster component
 		for (int i = 0; i < nDimensions; i++)
 		{
-			m_vector1.setM_coordinate(i, p.getM_coordinate(i) - s.getM_coordinate(i));
-			m_vector2.setM_coordinate(i, e.getM_coordinate(i) - s.getM_coordinate(i));
+			m_vector1.setVectors(i, p.getVectors(i) - s.getVectors(i));
+			m_vector2.setVectors(i, e.getVectors(i) - s.getVectors(i));
 		}
 
 		//  a coefficient (0 <= b <= 1)
@@ -317,7 +318,7 @@ public class ClusterGen {
 		//  NOTE: the variable m_projectionPoint is declared as a member variable
 
 		for (int i = 0; i < nDimensions; i++) {
-			m_projectionPoint.setM_coordinate(i, s.getM_coordinate(i) + m_coefficient * m_vector2.getM_coordinate(i));
+			m_projectionPoint.setVectors(i, s.getVectors(i) + m_coefficient * m_vector2.getVectors(i));
 		}
 
 		//  return the distance between the projection point and the given point
@@ -325,49 +326,49 @@ public class ClusterGen {
 
 	}
 	
-	private double measureDistanceFromPointToPoint(CMDPoint point1, CMDPoint point2) {
+	private double measureDistanceFromPointToPoint(Point point1, Point point2) {
 		
-		int nDimensions = point1.getM_nDimensions();
+		int nDimensions = point1.getDimensions();
 		double squareSum = 0.0;
 		
 		for (int i = 0; i < nDimensions; i++) {
-			squareSum += Math.pow((point2.getM_coordinate(i) - point1.getM_coordinate(i)), 2);
+			squareSum += Math.pow((point2.getVectors(i) - point1.getVectors(i)), 2);
 		}
 		return Math.sqrt(squareSum);
 		
 	}
 	
-	private double computeVectorLength(CMDPoint vector) {
+	private double computeVectorLength(Point vector) {
 		
-		int nDimensions = vector.getM_nDimensions();
+		int nDimensions = vector.getDimensions();
 		double squareSum = 0.0;
 		
 		for (int i = 0; i < nDimensions; i++) {
-			squareSum += Math.pow(vector.getM_coordinate(i), 2);
+			squareSum += Math.pow(vector.getVectors(i), 2);
 		}
 		
 		return Math.sqrt(squareSum);		
 	}
 	
-	private double computeInnerProduct(CMDPoint vector1, CMDPoint vector2) {
-		int nDimensions = vector1.getM_nDimensions();
+	private double computeInnerProduct(Point vector1, Point vector2) {
+		int nDimensions = vector1.getDimensions();
 		double innerProduct = 0.0;
 		
 		for (int i = 0; i < nDimensions; i++) {
-			innerProduct += (vector1.getM_coordinate(i) * vector2.getM_coordinate(i));
+			innerProduct += (vector1.getVectors(i) * vector2.getVectors(i));
 		}
 		
 		return innerProduct;
 	}
-	private double measureAngleDisntance(CMDPoint s1, CMDPoint e1, CMDPoint s2, CMDPoint e2) {
+	private double measureAngleDisntance(Point s1, Point e1, Point s2, Point e2) {
 		
-		int nDimensions = s1.getM_nDimensions();
+		int nDimensions = s1.getDimensions();
 		
 		//  NOTE: the variables m_vector1 and m_vector2 are declared as member variables
 		//  construct two vectors representing the cluster component and a line segment, respectively
 		for (int i = 0; i < nDimensions; i++) {
-			m_vector1.setM_coordinate(i, e1.getM_coordinate(i) - s1.getM_coordinate(i));
-			m_vector2.setM_coordinate(i, e2.getM_coordinate(i) - s2.getM_coordinate(i));			
+			m_vector1.setVectors(i, e1.getVectors(i) - s1.getVectors(i));
+			m_vector2.setVectors(i, e2.getVectors(i) - s2.getVectors(i));			
 		}
 		
 		//  we assume that the first line segment is longer than the second one
@@ -446,7 +447,7 @@ public class ClusterGen {
 		//  START ...
 		for (int i = 0; i < m_currComponentId; i++) {	
 			m_lineSegmentClusters[i] = new LineSegmentCluster();
-			m_lineSegmentClusters[i].avgDirectionVector = new CMDPoint(nDimensions);
+			m_lineSegmentClusters[i].avgDirectionVector = new Point(nDimensions);
 			m_lineSegmentClusters[i].lineSegmentClusterId = i;
 			m_lineSegmentClusters[i].nLineSegments = 0;
 			m_lineSegmentClusters[i].nClusterPoints = 0;
@@ -460,11 +461,11 @@ public class ClusterGen {
 			int componentId = m_componentIdArray.get(i);
 			if (componentId >= 0) {
 				for (int j = 0; j < nDimensions; j++) {
-					double difference = m_lineSegmentPointArray.get(i).getM_coordinate(nDimensions + j)
-							- m_lineSegmentPointArray.get(i).getM_coordinate(j);
-					double currSum = m_lineSegmentClusters[componentId].avgDirectionVector.getM_coordinate(j)
+					double difference = m_lineSegmentPointArray.get(i).getVectors(nDimensions + j)
+							- m_lineSegmentPointArray.get(i).getVectors(j);
+					double currSum = m_lineSegmentClusters[componentId].avgDirectionVector.getVectors(j)
 							+ difference;
-					m_lineSegmentClusters[componentId].avgDirectionVector.setM_coordinate(j, currSum);
+					m_lineSegmentClusters[componentId].avgDirectionVector.setVectors(j, currSum);
 				}
 				m_lineSegmentClusters[componentId].nLineSegments++;
 			}
@@ -475,14 +476,14 @@ public class ClusterGen {
 		double vectorLength1, vectorLength2, innerProduct;
 		double cosTheta, sinTheta;
 
-		m_vector2.setM_coordinate(0, 1.0);
-		m_vector2.setM_coordinate(1, 0.0);
+		m_vector2.setVectors(0, 1.0);
+		m_vector2.setVectors(1, 0.0);
 
 		for (int i = 0; i < m_currComponentId; i++) {
 			LineSegmentCluster clusterEntry = m_lineSegmentClusters[i];
 
 			for (int j = 0; j < nDimensions; j++) {
-				clusterEntry.avgDirectionVector.setM_coordinate(j, clusterEntry.avgDirectionVector.getM_coordinate(j) / (double)clusterEntry.nLineSegments);
+				clusterEntry.avgDirectionVector.setVectors(j, clusterEntry.avgDirectionVector.getVectors(j) / (double)clusterEntry.nLineSegments);
 			}
 			vectorLength1 = computeVectorLength(clusterEntry.avgDirectionVector);
 			vectorLength2 = 1.0;
@@ -493,7 +494,7 @@ public class ClusterGen {
 			if (cosTheta < -1.0) cosTheta = -1.0;
 			sinTheta = Math.sqrt(1 - Math.pow(cosTheta, 2));
 
-			if (clusterEntry.avgDirectionVector.getM_coordinate(1) < 0) {
+			if (clusterEntry.avgDirectionVector.getVectors(1) < 0) {
 				sinTheta = -sinTheta;
 			}
 
@@ -636,8 +637,8 @@ public class ClusterGen {
 			Set<Integer> lineSegments) {
 		int nDimensions = m_document.m_nDimensions;
 		int nLineSegmentsInSet = (int)(lineSegments.size());
-		CMDPoint clusterPoint = new CMDPoint(nDimensions);
-		CMDPoint sweepPoint = new CMDPoint(nDimensions);
+		Point clusterPoint = new Point(nDimensions);
+		Point sweepPoint = new Point(nDimensions);
 
 		for (int iter = 0; iter < lineSegments.size(); iter++) {
 			// get the sweep point of each line segment
@@ -645,17 +646,17 @@ public class ClusterGen {
 			getSweepPointOfLineSegment(clusterEntry, currValue,
 					(Integer)(lineSegments.toArray()[iter]),sweepPoint);
 			for (int i = 0; i < nDimensions; i++) {
-				clusterPoint.setM_coordinate(i, clusterPoint.getM_coordinate(i) +
-						(sweepPoint.getM_coordinate(i) / (double)nLineSegmentsInSet));
+				clusterPoint.setVectors(i, clusterPoint.getVectors(i) +
+						(sweepPoint.getVectors(i) / (double)nLineSegmentsInSet));
 			}
 		}
 		
 		// NOTE: this program code works only for the 2-dimensional data
 		double origX, origY;
-		origX = GET_X_REV_ROTATION(clusterPoint.getM_coordinate(0), clusterPoint.getM_coordinate(1), clusterEntry.cosTheta, clusterEntry.sinTheta);
-		origY = GET_Y_REV_ROTATION(clusterPoint.getM_coordinate(0), clusterPoint.getM_coordinate(1), clusterEntry.cosTheta, clusterEntry.sinTheta);
-		clusterPoint.setM_coordinate(0, origX);
-		clusterPoint.setM_coordinate(1, origY);
+		origX = GET_X_REV_ROTATION(clusterPoint.getVectors(0), clusterPoint.getVectors(1), clusterEntry.cosTheta, clusterEntry.sinTheta);
+		origY = GET_Y_REV_ROTATION(clusterPoint.getVectors(0), clusterPoint.getVectors(1), clusterEntry.cosTheta, clusterEntry.sinTheta);
+		clusterPoint.setVectors(0, origX);
+		clusterPoint.setVectors(1, origY);
 
 		// register the obtained cluster point (i.e., the average of all the sweep points)
 		clusterEntry.clusterPointArray.add(clusterPoint);
@@ -664,21 +665,21 @@ public class ClusterGen {
 	}
 	
 	private void getSweepPointOfLineSegment(LineSegmentCluster clusterEntry,
-			double currValue, int lineSegmentId, CMDPoint sweepPoint) {
+			double currValue, int lineSegmentId, Point sweepPoint) {
 
-		CMDPoint lineSegmentPoint = m_lineSegmentPointArray.get(lineSegmentId);		//  2n-dimensional point
+		Point lineSegmentPoint = m_lineSegmentPointArray.get(lineSegmentId);		//  2n-dimensional point
 		double coefficient;
 		
 		//  NOTE: this program code works only for the 2-dimensional data
 		double newStartX, newEndX, newStartY, newEndY;
-		newStartX = GET_X_ROTATION(lineSegmentPoint.getM_coordinate(0), lineSegmentPoint.getM_coordinate(1), clusterEntry.cosTheta, clusterEntry.sinTheta);
-		newEndX   = GET_X_ROTATION(lineSegmentPoint.getM_coordinate(2), lineSegmentPoint.getM_coordinate(3), clusterEntry.cosTheta, clusterEntry.sinTheta);
-		newStartY = GET_Y_ROTATION(lineSegmentPoint.getM_coordinate(0), lineSegmentPoint.getM_coordinate(1), clusterEntry.cosTheta, clusterEntry.sinTheta);
-		newEndY   = GET_Y_ROTATION(lineSegmentPoint.getM_coordinate(2), lineSegmentPoint.getM_coordinate(3), clusterEntry.cosTheta, clusterEntry.sinTheta);
+		newStartX = GET_X_ROTATION(lineSegmentPoint.getVectors(0), lineSegmentPoint.getVectors(1), clusterEntry.cosTheta, clusterEntry.sinTheta);
+		newEndX   = GET_X_ROTATION(lineSegmentPoint.getVectors(2), lineSegmentPoint.getVectors(3), clusterEntry.cosTheta, clusterEntry.sinTheta);
+		newStartY = GET_Y_ROTATION(lineSegmentPoint.getVectors(0), lineSegmentPoint.getVectors(1), clusterEntry.cosTheta, clusterEntry.sinTheta);
+		newEndY   = GET_Y_ROTATION(lineSegmentPoint.getVectors(2), lineSegmentPoint.getVectors(3), clusterEntry.cosTheta, clusterEntry.sinTheta);
 
 		coefficient = (currValue - newStartX) / (newEndX - newStartX);
-		sweepPoint.setM_coordinate(0, currValue);
-		sweepPoint.setM_coordinate(1, newStartY + coefficient * (newEndY - newStartY));
+		sweepPoint.setVectors(0, currValue);
+		sweepPoint.setVectors(1, newStartY + coefficient * (newEndY - newStartY));
 
 		return;				
 	}
@@ -703,11 +704,11 @@ public class ClusterGen {
 		//  the start and end values of the first dimension (e.g., the x value in the 2-dimension)
 		//  NOTE: this program code works only for the 2-dimensional data
 
-		CMDPoint aLineSegment = m_lineSegmentPointArray.get(lineSegmentId);
-		double orderingValue1 = GET_X_ROTATION(aLineSegment.getM_coordinate(0),
-				aLineSegment.getM_coordinate(1), clusterEntry.cosTheta, clusterEntry.sinTheta); 
-		double orderingValue2 = GET_X_ROTATION(aLineSegment.getM_coordinate(2), 
-				aLineSegment.getM_coordinate(3), clusterEntry.cosTheta, clusterEntry.sinTheta); 
+		Point aLineSegment = m_lineSegmentPointArray.get(lineSegmentId);
+		double orderingValue1 = GET_X_ROTATION(aLineSegment.getVectors(0),
+				aLineSegment.getVectors(1), clusterEntry.cosTheta, clusterEntry.sinTheta); 
+		double orderingValue2 = GET_X_ROTATION(aLineSegment.getVectors(2), 
+				aLineSegment.getVectors(3), clusterEntry.cosTheta, clusterEntry.sinTheta); 
 
 		CandidateClusterPoint existingCandidatePoint, newCandidatePoint1, newCandidatePoint2;
 		int i, j;
@@ -766,7 +767,7 @@ public class ClusterGen {
 		}
 		return;
 	}
-	private void computeEPSNeighborhood(CMDPoint startPoint, CMDPoint endPoint, double eps, Set<Integer> result) {
+	private void computeEPSNeighborhood(Point startPoint, Point endPoint, double eps, Set<Integer> result) {
 		result.clear();
 		for (int j = 0; j < m_nTotalLineSegments; j++) {
 			extractStartAndEndPoints(j, m_startPoint2, m_endPoint2);
@@ -776,8 +777,8 @@ public class ClusterGen {
 		}
 		return;
 	}
-	private double computeDistanceBetweenTwoLineSegments(CMDPoint startPoint1,
-			CMDPoint endPoint1, CMDPoint startPoint2, CMDPoint endPoint2) {
+	private double computeDistanceBetweenTwoLineSegments(Point startPoint1,
+			Point endPoint1, Point startPoint2, Point endPoint2) {
 		double perpendicularDistance = 0;
 		double parallelDistance =0;
 		double angleDistance =0;
@@ -817,8 +818,8 @@ public class ClusterGen {
 	}
 	
 	
-	private double subComputeDistanceBetweenTwoLineSegments(CMDPoint startPoint1,
-			CMDPoint endPoint1, CMDPoint startPoint2, CMDPoint endPoint2,
+	private double subComputeDistanceBetweenTwoLineSegments(Point startPoint1,
+			Point endPoint1, Point startPoint2, Point endPoint2,
 			double perpendicularDistance, double parallelDistance,
 			double angleDistance) {
 		
@@ -876,11 +877,11 @@ public class ClusterGen {
 		
 		
 	}
-	private void extractStartAndEndPoints(int index, CMDPoint startPoint, CMDPoint endPoint) {//  for speedup
+	private void extractStartAndEndPoints(int index, Point startPoint, Point endPoint) {//  for speedup
 		//  compose the start and end points of the line segment
 		for (int i = 0; i < m_document.m_nDimensions;i++) {
-			startPoint.setM_coordinate(i, m_lineSegmentPointArray.get(index).getM_coordinate(i));
-			endPoint.setM_coordinate(i, m_lineSegmentPointArray.get(index).getM_coordinate(m_document.m_nDimensions+i));;
+			startPoint.setVectors(i, m_lineSegmentPointArray.get(index).getVectors(i));
+			endPoint.setVectors(i, m_lineSegmentPointArray.get(index).getVectors(m_document.m_nDimensions+i));;
 		}
 	}
 
