@@ -7,6 +7,7 @@ package main;
 
 import DBscan.DBScan;
 import DBscan.Tuple;
+import TrajectoryClustering.TraClusterDoc;
 import gridgrowing.GridClustering;
 import spectralclustering.SpectralClustering;
 import hierarchicalclustering.HierarchicalClustering;
@@ -1693,8 +1694,13 @@ public class Application extends javax.swing.JFrame {
 
     private void setIsGPSData(boolean isGPSData) {
         if (isGPSData) {
-            dataTypeLabel.setText("Geo");
-            mapKit.setWaypoints(data);
+            if(null!=data){
+                dataTypeLabel.setText("Geo");
+                mapKit.setWaypoints(data);
+            }else{
+                dataTypeLabel.setText("Traj");
+            }
+            
         } else {
             dataTypeLabel.setText("Normal");
         }
@@ -1895,18 +1901,28 @@ public class Application extends javax.swing.JFrame {
             File selectedFile = file.getSelectedFile();
             if (selectedFile != null) {
                 File dataFile = selectedFile;
-
                 if (rd.readData(dataFile, isGPSData)) // check the validity of data
                 {
+               
                     showWarning("File loaded.");
                     cleanResult();
+                    
                     data = rd.getPoints();
+                    traData = rd.getTraData();
                     fileName = file.getSelectedFile().getName();
                     //this.setTitle(fileName);
                     fileTextField.setText(file.getSelectedFile().getAbsolutePath());
-                    pointsLabel.setText(Integer.toString(data.length));
-                    dimensionsLabel.setText(Integer.toString(rd.getVectorSize()));
+                    if(null!=data){
+                        jLabel11.setText("Points:");
+                        pointsLabel.setText(Integer.toString(data.length));
+                        dimensionsLabel.setText(Integer.toString(rd.getVectorSize()));
+                    }else{
+                        jLabel11.setText("Trajs:");
+                        pointsLabel.setText(Integer.toString(traData.m_nTrajectories));
+                        dimensionsLabel.setText(Integer.toString(traData.m_nDimensions));
+                    }
                     setIsGPSData(isGPSData);
+                    
                 } else {
                     showWarning("File is invalid.");
                 }
@@ -2235,7 +2251,8 @@ public class Application extends javax.swing.JFrame {
 
     private boolean isGPSData;
     private ReadData rd;
-    private Point[] data; // extracted data of points from file
+    private Point[] data;
+    private TraClusterDoc traData;
     private String algorithm;
     private String fileName;
     private ClusterPanel clusterPanel;

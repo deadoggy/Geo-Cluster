@@ -47,9 +47,18 @@ public class TraClusterDoc {
 		double epsParam;
 		int minLnsParam;
 	}
+        
+        public boolean loadFile(String inputFileName){
+            try{
+                return onOpenDocument(inputFileName);
+            }catch(Exception e){
+                return false;
+            }
+        }
 	
 	boolean onOpenDocument(String inputFileName) {
 		
+                boolean valid = true;
 		int nDimensions = 2;		// default dimension = 2
 		int nTrajectories = 0;
 		int nTotalPoints = 0;		//no use
@@ -99,25 +108,27 @@ public class TraClusterDoc {
 				m_trajectoryList.add(pTrajectoryItem);
 			}					
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			System.out.println("Unable to open input file");
+                        valid=false;
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+                        valid=false;
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+                        valid=false;
 		}  finally {
 			try {
 				inBuffer.close();
-				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
         		
-		return true;
+		return valid;
 	}
 	
-	boolean onClusterGenerate(String clusterFileName, double epsParam, int minLnsParam) {
+	public boolean onClusterGenerate(String clusterFileName, double epsParam, int minLnsParam) {
 //////////////////////////////////////////////////still to be written
 		
 		ClusterGen generator = new ClusterGen(this);
@@ -194,7 +205,7 @@ public class TraClusterDoc {
 		return true;		
 	}
 	
-	Parameter onEstimateParameter() {
+	public Parameter onEstimateParameter() {
 		Parameter p = new Parameter();
 		ClusterGen generator = new ClusterGen(this);
 		if (!generator.partitionTrajectory()) {

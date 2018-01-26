@@ -1,5 +1,6 @@
 package main;
 
+import TrajectoryClustering.TraClusterDoc;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -15,11 +16,13 @@ public class ReadData {
 
     private double minX, minY, maxX, maxY;
     private Point[] points;
+    private TraClusterDoc traData;
     private int vectorSize;
     public boolean isGPSData;
 
     public ReadData() {
         this.points = null;
+        
         this.vectorSize = 0;
     }
     
@@ -28,6 +31,14 @@ public class ReadData {
      * is not valid
      */
     public boolean readData(File filedata, boolean isGPS) {
+        this.traData = new TraClusterDoc();
+        if(traData.loadFile(filedata.getAbsolutePath())){
+            this.points = null;
+            return true;
+        }else{
+            this.traData = null;
+        }
+        
         ArrayList pointList = new ArrayList();
         Point point;
 
@@ -109,6 +120,7 @@ public class ReadData {
         }
         points = convertPoints(pointList);
         isGPSData = isGPS;
+        traData=null;
         return true;
     }
 
@@ -197,6 +209,10 @@ public class ReadData {
 
     public int getVectorSize() {
         return vectorSize;
+    }
+    
+    public TraClusterDoc getTraData(){
+        return traData;
     }
 
 }
