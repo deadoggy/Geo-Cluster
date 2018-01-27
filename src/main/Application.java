@@ -1888,7 +1888,7 @@ public class Application extends javax.swing.JFrame {
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
         String presentTime = df.format(new Date());
 
-        String exportedFileName = fileName.substring(0, fileName.length() - 4) + "_" + algorithm + "_" + presentTime + ".json";
+        String exportedFileName = "../export/" + fileName.substring(0, fileName.length() - 4) + "_" + algorithm + "_" + presentTime + ".json";
         try {
             FileOutputStream os = new FileOutputStream(exportedFileName);
             OutputStreamWriter writer = new OutputStreamWriter(os, "UTF-8");
@@ -1996,7 +1996,7 @@ public class Application extends javax.swing.JFrame {
                 return "Data files(*.txt, *.csv)";
             }
         };
-        JFileChooser file = new JFileChooser("dataset/");
+        JFileChooser file = new JFileChooser("../dataset/");
         file.addChoosableFileFilter(filter);
         int result = file.showOpenDialog(null);
 

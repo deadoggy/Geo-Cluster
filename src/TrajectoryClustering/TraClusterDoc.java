@@ -286,7 +286,7 @@ public class TraClusterDoc {
             SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
             String presentTime = df.format(new Date());
             
-            String exportedFileName = fileName + "_traj_" + presentTime + ".json";
+            String exportedFileName = "../export/" + fileName + "_traj_" + presentTime + ".json";
             try {
                 FileOutputStream os = new FileOutputStream(exportedFileName);
                 OutputStreamWriter writer = new OutputStreamWriter(os, "UTF-8");
