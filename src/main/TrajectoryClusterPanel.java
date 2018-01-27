@@ -51,16 +51,19 @@ public class TrajectoryClusterPanel extends JPanel {
 		
                 ArrayList<Trajectory> trajectoryAL = traData.m_trajectoryList;
                 ArrayList<Cluster> clusterRepresentativeTrajectoryAL = traData.m_clusterList;
+                /*由于traj算法是借用别人的实现， 1200*900是之前实现中数据的范围*/
+                Double xRate = 580.0 / 1200.0;
+                Double yRate = 580.0 / 900.0;
 
 		
 		for (int i = 0; i < trajectoryAL.size();i++) {
 			for (int m = 0; m < trajectoryAL.get(i).getM_pointArray().size() - 2 ;m++) {
-                                Point start = normalizePoint(trajectoryAL.get(i).getM_pointArray().get(m), traData);
-                                Point end = normalizePoint(trajectoryAL.get(i).getM_pointArray().get(m+1), traData);
-				int startX = (int)start.getVectors(0);
-				int startY = (int)start.getVectors(1);
-				int endX = (int)end.getVectors(0);
-				int endY = (int)end.getVectors(1);
+                                Point start = trajectoryAL.get(i).getM_pointArray().get(m);
+                                Point end = trajectoryAL.get(i).getM_pointArray().get(m+1);
+				int startX = (int)(start.getVectors(0)*xRate);
+				int startY = (int)(start.getVectors(1)*yRate);
+				int endX = (int)(end.getVectors(0)*xRate);
+				int endY = (int)(end.getVectors(1)*yRate);
                                 gs.setColor(Color.GREEN);
 				gs.drawLine(startX, startY, endX, endY);
 			}
@@ -68,18 +71,17 @@ public class TrajectoryClusterPanel extends JPanel {
 		
 		for (int i = 0; i < clusterRepresentativeTrajectoryAL.size();i++) {
 			for (int j = 0; j < clusterRepresentativeTrajectoryAL.get(i).getM_PointArray().size() - 2; j++) {
-                                Point start = normalizePoint(trajectoryAL.get(i).getM_pointArray().get(j), traData);
-                                Point end = normalizePoint(trajectoryAL.get(i).getM_pointArray().get(j+1), traData);
-				int startX = (int)start.getVectors(0);
-				int startY = (int)start.getVectors(1);
-				int endX = (int)end.getVectors(0);
-				int endY = (int)end.getVectors(1);
-				
+                                Point start = clusterRepresentativeTrajectoryAL.get(i).getM_PointArray().get(j);
+                                Point end = clusterRepresentativeTrajectoryAL.get(i).getM_PointArray().get(j+1);
+				int startX = (int)(start.getVectors(0)*xRate);
+				int startY = (int)(start.getVectors(1)*yRate);
+				int endX = (int)(end.getVectors(0)*xRate);
+				int endY = (int)(end.getVectors(1)*yRate);
 				gs.setColor(Color.RED);
 				gs.drawLine(startX, startY, endX, endY);
 			}
 		}	
-	}
+}
     private Point normalizePoint(Point point, TraClusterDoc traData) {
         int width = this.getWidth() - 20;   // leave some margin  ******************change
         int height = this.getHeight() - 20; // leave some margin

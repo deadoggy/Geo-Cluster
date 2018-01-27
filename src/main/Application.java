@@ -1255,7 +1255,7 @@ public class Application extends javax.swing.JFrame {
         jLabel31.setMinimumSize(new java.awt.Dimension(55, 55));
         jLabel31.setPreferredSize(new java.awt.Dimension(55, 25));
 
-        trajClusterMinLnsTextField.setText("16");
+        trajClusterMinLnsTextField.setText("6");
         trajClusterMinLnsTextField.setPreferredSize(new java.awt.Dimension(49, 25));
 
         jLabel32.setText("eps");
@@ -1732,11 +1732,16 @@ public class Application extends javax.swing.JFrame {
 
     private void trajectoryClusterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trajectoryClusterButtonActionPerformed
         try{
+            if(null==traData){
+                throw new Exception();
+            }
             Integer minLns = Integer.parseInt(trajClusterMinLnsTextField.getText());
             Double eps = Double.parseDouble(trajClusterEpsTextField.getText());
             trajClusterPanel.startTrajectoryClusterPanel(traData, minLns, eps);
-        }catch(NumberFormatException e){
-            showWarning("input invalid");
+            showResultInfo();
+            tabbedViewerPanel.setSelectedIndex(3);
+        }catch(Exception e){
+            showWarning("Data invalid");
         }
         
     }//GEN-LAST:event_trajectoryClusterButtonActionPerformed
@@ -1762,6 +1767,23 @@ public class Application extends javax.swing.JFrame {
         splitSmartSwapClustererButton.setEnabled(isGPSData);
     }
 
+    private void showResultInfo(){
+        this.algorithm = "TrajectoryClustering";
+        int length = traData.m_nClusters;
+        String str = "Algorithm: " + this.algorithm + "\n\nThere are " + length + " clusters.\n";
+        
+        for(TrajectoryClustering.Cluster cl : traData.m_clusterList){
+               str += cl.toString();
+        }
+        
+        algorithmLabel.setText(this.algorithm);
+        clustersLabel.setText(String.valueOf(length));
+ 
+        timeLabel.setText(String.valueOf(traData.duration) + "ms");
+        stateLabel.setText("Clusters:" + length + " Time:" + String.valueOf(traData.duration) + "ms");
+        logTextArea.setText(str + "\nTime:" + String.valueOf(traData.duration) + "ms\n");
+    }
+    
     private void showResultInfo(Cluster[] clusters, long duration, String algorithm) {
         resultClusters = clusters;
         this.algorithm = algorithm;

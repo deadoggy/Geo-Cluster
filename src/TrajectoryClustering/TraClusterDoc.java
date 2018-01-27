@@ -37,6 +37,7 @@ public class TraClusterDoc {
         public double maxY;
         public double minX;
         public double minY;
+        public long duration;
         
 	
 	public TraClusterDoc() {
@@ -53,7 +54,7 @@ public class TraClusterDoc {
         public void refresh(){
             m_nClusters = 0;
             m_clusterList = new ArrayList<Cluster>();
-            
+            duration = 0;
         }
 	
 	public class Parameter {
@@ -147,7 +148,8 @@ public class TraClusterDoc {
 	
 	public boolean onClusterGenerate(String clusterFileName, double epsParam, int minLnsParam) {
 //////////////////////////////////////////////////still to be written
-		
+		long startTime = System.currentTimeMillis();
+                long endTime;
 		ClusterGen generator = new ClusterGen(this);
 		
 		if(m_nTrajectories == 0) {
@@ -213,12 +215,14 @@ public class TraClusterDoc {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
+                        
 			try {
 				bw.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
+                duration = System.currentTimeMillis() - startTime;
 		return true;		
 	}
 	
@@ -240,6 +244,7 @@ public class TraClusterDoc {
         public void clearResult(){
             m_clusterList = null;
         }
+        
         
 
 }

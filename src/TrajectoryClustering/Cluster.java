@@ -36,6 +36,8 @@ public class Cluster {
 		m_nPoints = 0;
 		m_pointArray = new ArrayList<Point>();
 	}
+        
+        
 	
 	public void setM_clusterId(int m_clusterId) {
 		this.m_clusterId = m_clusterId;
@@ -72,6 +74,14 @@ public class Cluster {
 	public boolean writeCluster(OutputStream outfile) {	
 		return true;	
 	}
-
+        
+        public String toString(){
+            String str = "cluster " + m_clusterId + ":\n\t";
+            for(Point pt : m_pointArray){
+                str +=  pt + ", ";
+            }
+            str += "\n";
+            return str;
+        }
 	
 }
