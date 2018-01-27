@@ -1242,6 +1242,7 @@ public class Application extends javax.swing.JFrame {
         trajectoryClusterPanel.setMinimumSize(new java.awt.Dimension(0, 0));
 
         trajectoryClusterButton.setText("run");
+        trajectoryClusterButton.setEnabled(false);
         trajectoryClusterButton.setMaximumSize(new java.awt.Dimension(55, 29));
         trajectoryClusterButton.setPreferredSize(new java.awt.Dimension(47, 29));
         trajectoryClusterButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1637,11 +1638,29 @@ public class Application extends javax.swing.JFrame {
     }//GEN-LAST:event_markerClustererSelectPanelMouseReleased
 
     private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportButtonActionPerformed
-        exportResult();
+        if(algorithm != "TrajectoryClustering"){
+            exportResult();
+        }else{
+            String exportFile = traData.exportResult();
+            if(null == exportFile){
+                showWarning("File operation failed.");
+            }else{
+                showWarning(exportFile+ " exported.");
+            }
+        }
     }//GEN-LAST:event_exportButtonActionPerformed
 
     private void exportMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportMenuItemActionPerformed
-        exportResult();
+        if(algorithm != "TrajectoryClustering"){
+            exportResult();
+        }else{
+            String exportFile = traData.exportResult();
+            if(null == exportFile){
+                showWarning("File operation failed.");
+            }else{
+                showWarning(exportFile+ " exported.");
+            }
+        }
     }//GEN-LAST:event_exportMenuItemActionPerformed
 
     private void spectralButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_spectralButtonActionPerformed
@@ -1753,24 +1772,28 @@ public class Application extends javax.swing.JFrame {
     private void setIsGPSData(boolean isGPSData) {
         if (isGPSData) {
             if(null!=data){
+                trajectoryClusterButton.setEnabled(false);
                 dataTypeLabel.setText("Geo");
                 mapKit.setWaypoints(data);
             }else{
                 dataTypeLabel.setText("Traj");
+                trajectoryClusterButton.setEnabled(true);
             }
             
         } else {
+            trajectoryClusterButton.setEnabled(false);
             dataTypeLabel.setText("Normal");
         }
-        this.isGPSData = isGPSData;
-        markerClustererButton.setEnabled(isGPSData);
-        splitSmartSwapClustererButton.setEnabled(isGPSData);
+        this.isGPSData = isGPSData ;
+        markerClustererButton.setEnabled(isGPSData&&(traData==null));
+        splitSmartSwapClustererButton.setEnabled(isGPSData&&(traData==null));
     }
+    
 
     private void showResultInfo(){
         this.algorithm = "TrajectoryClustering";
         int length = traData.m_nClusters;
-        String str = "Algorithm: " + this.algorithm + "\n\nThere are " + length + " clusters.\n";
+        String str = "Algorithm: " + this.algorithm + "\n\nThere are " + length + " clusters.\n\n";
         
         for(TrajectoryClustering.Cluster cl : traData.m_clusterList){
                str += cl.toString();
@@ -1840,6 +1863,8 @@ public class Application extends javax.swing.JFrame {
         }
     }
 
+    
+    
     private void exportResult() {
         if (resultClusters == null) {
             showWarning("There is no result.");

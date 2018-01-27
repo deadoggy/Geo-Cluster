@@ -19,10 +19,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import main.Application;
 import main.Point;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class TraClusterDoc {
 	
@@ -38,6 +45,8 @@ public class TraClusterDoc {
         public double minX;
         public double minY;
         public long duration;
+        public Parameter parameter;
+        public String fileName;
         
 	
 	public TraClusterDoc() {
@@ -49,12 +58,15 @@ public class TraClusterDoc {
 		m_clusterList = new ArrayList<Cluster>();
                 maxX = maxY = 0;
                 minX = minY = 10000;
+                parameter = null;
+                fileName = null;
 	}
         
         public void refresh(){
             m_nClusters = 0;
             m_clusterList = new ArrayList<Cluster>();
             duration = 0;
+            parameter = null;
         }
 	
 	public class Parameter {
@@ -142,12 +154,16 @@ public class TraClusterDoc {
 				e.printStackTrace();
 			}
 		}
-        		
+                fileName = inputFileName.substring(inputFileName.lastIndexOf("/")+1,
+                        inputFileName.lastIndexOf(".")!=-1?inputFileName.lastIndexOf("."): inputFileName.length());
 		return valid;
 	}
 	
 	public boolean onClusterGenerate(String clusterFileName, double epsParam, int minLnsParam) {
 //////////////////////////////////////////////////still to be written
+                parameter = new Parameter();
+                parameter.epsParam = epsParam;
+                parameter.minLnsParam = minLnsParam;
 		long startTime = System.currentTimeMillis();
                 long endTime;
 		ClusterGen generator = new ClusterGen(this);
@@ -189,39 +205,39 @@ public class TraClusterDoc {
 			}
 			System.out.println();
 		}
-		FileOutputStream fos = null;
-		BufferedWriter bw = null;
-		OutputStreamWriter osw = null;
-		try {
-			fos = new FileOutputStream(clusterFileName);
-			osw = new OutputStreamWriter(fos);
-			bw = new BufferedWriter(osw);
-			
-			bw.write("epsParam:"+epsParam +"   minLnsParam:"+minLnsParam);
-			
-			for (int i = 0; i < m_clusterList.size(); i++) {
-				// m_clusterList.
-				bw.write("\nclusterID: "+ m_clusterList.get(i).getM_clusterId() + "  Points Number:  " + m_clusterList.get(i).getM_PointArray().size() + "\n");
-				for (int j = 0; j < m_clusterList.get(i).getM_PointArray().size(); j++) {
-					
-					double x = m_clusterList.get(i).getM_PointArray().get(j).getVectors(0);
-					double y = m_clusterList.get(i).getM_PointArray().get(j).getVectors(1);
-					bw.write(x+" "+y+"   ");
-				}
-			}						
-			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-                        
-			try {
-				bw.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+//		FileOutputStream fos = null;
+//		BufferedWriter bw = null;
+//		OutputStreamWriter osw = null;
+//		try {
+//			fos = new FileOutputStream(clusterFileName);
+//			osw = new OutputStreamWriter(fos);
+//			bw = new BufferedWriter(osw);
+//			
+//			bw.write("epsParam:"+epsParam +"   minLnsParam:"+minLnsParam);
+//			
+//			for (int i = 0; i < m_clusterList.size(); i++) {
+//				// m_clusterList.
+//				bw.write("\nclusterID: "+ m_clusterList.get(i).getM_clusterId() + "  Points Number:  " + m_clusterList.get(i).getM_PointArray().size() + "\n");
+//				for (int j = 0; j < m_clusterList.get(i).getM_PointArray().size(); j++) {
+//					
+//					double x = m_clusterList.get(i).getM_PointArray().get(j).getVectors(0);
+//					double y = m_clusterList.get(i).getM_PointArray().get(j).getVectors(1);
+//					bw.write(x+" "+y+"   ");
+//				}
+//			}						
+//			
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} finally {
+//                        
+//			try {
+//				bw.close();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
                 duration = System.currentTimeMillis() - startTime;
 		return true;		
 	}
@@ -245,6 +261,43 @@ public class TraClusterDoc {
             m_clusterList = null;
         }
         
-        
+        public String exportResult(){
+            if(null==m_clusterList||0==m_clusterList.size()){
+                return null;
+            }
+            JSONObject info = new JSONObject();
+            info.append("algorithm", "trajectory clustering");
+            info.append("duration", duration);
+            info.append("eps",parameter.epsParam);
+            info.append("minLns", parameter.minLnsParam);
+            JSONObject cluster = new JSONObject();
+            for(int i=0 ; i<m_clusterList.size(); i++){
+                JSONArray clusterArray = new JSONArray();
+                for(Point pt : m_clusterList.get(i).getM_PointArray()){
+                    JSONArray ptArr = new JSONArray();
+                    ptArr.put(pt.vectors[0]);
+                    ptArr.put(pt.vectors[1]);
+                    clusterArray.put(ptArr);
+                }
+                cluster.append(String.valueOf(i), clusterArray);
+            }
+            info.append("cluster", cluster);
+            
+            SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+            String presentTime = df.format(new Date());
+            
+            String exportedFileName = fileName + "_traj_" + presentTime + ".json";
+            try {
+                FileOutputStream os = new FileOutputStream(exportedFileName);
+                OutputStreamWriter writer = new OutputStreamWriter(os, "UTF-8");
+                info.write(writer);
+                writer.close();
+                os.close();
+            } catch (Exception ex) {
+                Logger.getLogger(Application.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            }
+            return exportedFileName;
+        }
 
 }

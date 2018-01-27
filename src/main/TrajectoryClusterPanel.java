@@ -48,6 +48,9 @@ public class TrajectoryClusterPanel extends JPanel {
     }
     
     private void drawTrajectory() {
+                if(null == traData||null==traData.m_clusterList){
+                    return;
+                }
 		
                 ArrayList<Trajectory> trajectoryAL = traData.m_trajectoryList;
                 ArrayList<Cluster> clusterRepresentativeTrajectoryAL = traData.m_clusterList;
@@ -81,33 +84,5 @@ public class TrajectoryClusterPanel extends JPanel {
 				gs.drawLine(startX, startY, endX, endY);
 			}
 		}	
-}
-    private Point normalizePoint(Point point, TraClusterDoc traData) {
-        int width = this.getWidth() - 20;   // leave some margin  ******************change
-        int height = this.getHeight() - 20; // leave some margin
-        double newX, newY;                     // coordinates in the screen
-        double x, y;
-        double minX = traData.minX;
-        double minY = traData.minY;
-        double maxX = traData.maxX;
-        double maxY = traData.maxY;
-        
-        if (point.vectors != null) {
-            double[] vectors;
-            
-            x = point.vectors[0];
-            y = point.vectors[1];
-            newX = (x - minX) / (maxX - minX) * width + 10;// leave some margin 10 pixle
-            //newY = (maxY - y) / (maxY - minY) * height + 10;
-            newY = (y - minY) / (maxY - minY) * height + 10;
-            vectors = new double[2];
-            vectors[0] = newX;
-            vectors[1] = newY;
-            Point newPoint = new Point(vectors, false);
-
-            return newPoint;
-        } else {
-            return point;
-        }
     }
 }

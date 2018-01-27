@@ -1884,6 +1884,7 @@
                     <Component class="javax.swing.JButton" name="trajectoryClusterButton">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="run"/>
+                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[55, 29]"/>
                         </Property>
